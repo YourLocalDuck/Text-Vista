@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 //import { Worker, Viewer } from '@react-pdf-viewer/core';
 //import '@react-pdf-viewer/core/lib/styles/index.css';
 
@@ -7,6 +8,9 @@ export const TextGallery: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [fileContent, setFileContent] = useState<string | ArrayBuffer | null>(null);
     const [error, setError] = useState<string | null>(null);
+
+    const navigate = useNavigate();
+
 
     const maxFileSize = 10 * 1024 * 1024; // 10MB
     const allowedFileTypes = ['text/plain', 'application/pdf'];
@@ -110,6 +114,12 @@ export const TextGallery: React.FC = () => {
                     
                 </div>
             )}
+
+            <div>
+                <br></br>
+                <button onClick={() => navigate("/")}>Home Page</button>
+            </div>
+
             
         </div>
     );
