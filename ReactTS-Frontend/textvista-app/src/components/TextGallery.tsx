@@ -1,14 +1,14 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 //import { Worker, Viewer } from '@react-pdf-viewer/core';
-import '@react-pdf-viewer/core/lib/styles/index.css';
+//import '@react-pdf-viewer/core/lib/styles/index.css';
 
 export const TextGallery: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [fileContent, setFileContent] = useState<string | ArrayBuffer | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    const maxFileSize = 5 * 1024 * 1024; // 5MB
+    const maxFileSize = 10 * 1024 * 1024; // 10MB
     const allowedFileTypes = ['text/plain', 'application/pdf'];
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +63,7 @@ export const TextGallery: React.FC = () => {
             return;
         }
 
-        const url = 'http://localhost:3000/uploadFile';
+        const url = `http://localhost:8080/api/uploadFile`;
         const formData = new FormData();
         formData.append('file', file);
         formData.append('fileName', file.name);
@@ -83,7 +83,10 @@ export const TextGallery: React.FC = () => {
             <form onSubmit={handleSubmit}>
                 <h1>File Upload and Display</h1>
                 <input type="file" onChange={handleChange} />
-                <button type="submit">Upload</button>
+                {/**
+                 *                 <button type="submit">Upload</button>
+                 */}
+
             </form>
 
             {error && <p style={{ color: 'red' }}>Error: {error}</p>}
@@ -91,19 +94,23 @@ export const TextGallery: React.FC = () => {
             {fileContent && file?.type === 'text/plain' && (
                 <div>
                     <h2>Text File Content:</h2>
-                    <div>{fileContent as string}</div>
+                    <pre>{fileContent as string}</pre>
                 </div>
             )}
 
             {fileContent && file?.type === 'application/pdf' && (
                 <div>
-                    <h2>PDF File Content:</h2>
-                    <div>{fileContent as string}</div>
-                    {/*<Worker workerUrl={`https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js`}>
+                    <h2>PDF File Content Viewing: - In the works</h2>
+                    
+                    {/*
+                    <pre>{fileContent as string}</pre>
+                    <Worker workerUrl={`https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js`}>
                         <Viewer fileUrl={fileContent as string} />
                     </Worker>*/}
+                    
                 </div>
             )}
+            
         </div>
     );
 };
